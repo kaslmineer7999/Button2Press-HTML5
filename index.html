@@ -66,10 +66,10 @@
 	<body>
 		<div id="title-bar">
 			<div>
-				Bits: <span id="points">0</span>
+				Points: <span id="points">0</span>
 			</div>
 			<div>
-				124
+				Time spent: <span id="timeSpent">0</span>
 			</div>
 		</div>
 
@@ -80,12 +80,37 @@
 		<script>
 			const button2click = document.querySelector('#button2click');
 			const points       = document.querySelector('#points');
+			let   time         = 0;
+			let   timeShow     = document.querySelector('#timeSpent');
+			//Credits to https://jsdev.space/howto/convert-seconds-js/ for function
+			const fmtSec = seconds => {
+			  if (isNaN(seconds) || seconds < 0) return '00h 00m 00s';
+
+			  let secondTime = parseInt(seconds);
+			  let minuteTime = Math.floor(secondTime / 60);
+			  let hourTime = Math.floor(minuteTime / 60);
+
+			  secondTime %= 60;
+			  minuteTime %= 60;
+
+			  return (
+			    `${hourTime.toString()}h ` +
+			    `${minuteTime.toString()}m ` +
+			    `${secondTime.toString()}s`
+			  );
+			};
 
 			button2click.addEventListener("click",function(){
 				let npoints = +points.innerHTML + 1;
 				points.innerHTML = npoints;
-				console.log(`points: ${npoints}`)
+				console.log(`points: ${npoints}`);
 			});
+
+			const Timer = setInterval(function(){
+				time = time + 1;
+				console.log(fmtSec(time));
+				timeShow.innerHTML = fmtSec(time);
+			}, 1000);
 		</script>
 	</body>
 </html>
